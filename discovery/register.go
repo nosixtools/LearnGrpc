@@ -5,10 +5,7 @@ import "time"
 type RegisterInfo struct {
 	Host           string
 	Port           int
-	Weight         int
 	ServiceName    string
-	BasePath       string
-	Version        string
 	UpdateInterval time.Duration
 }
 
