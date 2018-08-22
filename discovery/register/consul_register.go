@@ -63,7 +63,7 @@ func (cr *ConsulRegister) Register(info discovery.RegisterInfo) error {
 		x := <-ch
 		log.Println("LearnGrpc: receive signal: ", x)
 		// un-register service
-		cr.UnRegister(info)
+		cr.DeRegister(info)
 
 		s, _ := strconv.Atoi(fmt.Sprintf("%d", x))
 		os.Exit(s)
@@ -83,7 +83,7 @@ func (cr *ConsulRegister) Register(info discovery.RegisterInfo) error {
 	return nil
 }
 
-func (cr *ConsulRegister) UnRegister(info discovery.RegisterInfo) error {
+func (cr *ConsulRegister) DeRegister(info discovery.RegisterInfo) error {
 
 	serviceId := generateServiceId(info.ServiceName, info.Host, info.Port)
 
