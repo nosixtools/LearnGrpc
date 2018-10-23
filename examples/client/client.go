@@ -1,14 +1,14 @@
 package main
 
 import (
-	"time"
-	"log"
-	"google.golang.org/grpc"
-	"github.com/nosixtools/LearnGrpc/examples/proto"
 	"context"
-	"google.golang.org/grpc/balancer/roundrobin"
-	"github.com/nosixtools/LearnGrpc/discovery/resolver"
 	"fmt"
+	"github.com/nosixtools/LearnGrpc/discovery/resolver"
+	"github.com/nosixtools/LearnGrpc/examples/proto"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/balancer/roundrobin"
+	"log"
+	"time"
 )
 
 func main() {
@@ -32,11 +32,14 @@ func main() {
 	for {
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
+
 		r, err := c.SayHello(ctx, &proto.HelloRequest{Name: name})
 		if err != nil {
-			log.Fatalf("could not greet: %v", err)
+			log.Println("could not greet: %v", err)
+
+		} else {
+			log.Printf("Hello: %s", r.Result)
 		}
-		log.Printf("Hello: %s", r.Result)
 		time.Sleep(time.Second)
 	}
 

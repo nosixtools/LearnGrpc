@@ -1,13 +1,13 @@
 package resolver
 
 import (
-	"google.golang.org/grpc/resolver"
+	"context"
 	"fmt"
 	consulapi "github.com/hashicorp/consul/api"
+	"google.golang.org/grpc/resolver"
 	"log"
-	"time"
 	"sync"
-	"context"
+	"time"
 )
 
 type consulBuilder struct {
@@ -66,7 +66,7 @@ func (cb *consulBuilder) Scheme() string {
 type consulResolver struct {
 	clientConn           *resolver.ClientConn
 	consulBuilder        *consulBuilder
-	t                    *time.Timer
+	t                    *time.Ticker
 	wg                   sync.WaitGroup
 	rn                   chan struct{}
 	ctx                  context.Context
@@ -79,7 +79,7 @@ func NewConsulResolver(cc *resolver.ClientConn, cb *consulBuilder, opts resolver
 	return &consulResolver{
 		clientConn:           cc,
 		consulBuilder:        cb,
-		t:                    time.NewTimer(0),
+		t:                    time.NewTicker(time.Second),
 		ctx:                  ctx,
 		cancel:               cancel,
 		disableServiceConfig: opts.DisableServiceConfig}
